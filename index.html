@@ -167,7 +167,7 @@
 <body>
   <h1>3-Month Transformation Challenge</h1>
   <form id="logForm">
-    <label>Date: <input type="date" id="Date" value="2025-05-05"></label>
+    <label>Date: <input type="date" id="date" value="2025-05-05"></label>
     <label>Wake up at 6:00 AM: <select id="wakeUp6AM"><option value="Yes">Yes</option><option value="No">No</option></select></label>
     <label>Exercise (30-45 min): <input type="text" id="exercise" placeholder="e.g., 35 min"></label>
     <label>Notes: <input type="text" id="exerciseNotes" placeholder="e.g., Jogging"></label>
@@ -233,25 +233,26 @@
 
     document.getElementById("logForm").addEventListener("submit", function(e) {
       e.preventDefault();
+      console.log("Form submit event triggered"); // Debugging line
       const formData = {
-        date: document.getElementById("date").value,
-        wakeUp6AM: document.getElementById("wakeUp6AM").value,
-        exercise: document.getElementById("exercise").value,
-        exerciseNotes: document.getElementById("exerciseNotes").value,
-        holyBooks: document.getElementById("holyBooks").value,
-        holyBookNotes: document.getElementById("holyBookNotes").value,
-        podcast: document.getElementById("podcast").value,
-        podcastNotes: document.getElementById("podcastNotes").value,
-        noSmoking: document.getElementById("noSmoking").value,
-        noMasturbation: document.getElementById("noMasturbation").value,
-        noJunkFood: document.getElementById("noJunkFood").value,
-        englishVideos: document.getElementById("englishVideos").value,
-        socialMedia: document.getElementById("socialMedia").value,
-        overthinking: document.getElementById("overthinking").value,
-        overthinkingNotes: document.getElementById("overthinkingNotes").value,
-        sleepAt10PM: document.getElementById("sleepAt10PM").value,
-        learningNew: document.getElementById("learningNew").value,
-        learningNotes: document.getElementById("learningNotes").value
+        Date: document.getElementById("date").value,
+        WakeUp6AM: document.getElementById("wakeUp6AM").value,
+        Exercise: document.getElementById("exercise").value,
+        ExerciseNotes: document.getElementById("exerciseNotes").value,
+        HolyBooks: document.getElementById("holyBooks").value,
+        HolyBookNotes: document.getElementById("holyBookNotes").value,
+        Podcast: document.getElementById("podcast").value,
+        PodcastNotes: document.getElementById("podcastNotes").value,
+        NoSmoking: document.getElementById("noSmoking").value,
+        NoMasturbation: document.getElementById("noMasturbation").value,
+        NoJunkFood: document.getElementById("noJunkFood").value,
+        EnglishVideos: document.getElementById("englishVideos").value,
+        SocialMedia: document.getElementById("socialMedia").value,
+        Overthinking: document.getElementById("overthinking").value,
+        OverthinkingNotes: document.getElementById("overthinkingNotes").value,
+        SleepAt10PM: document.getElementById("sleepAt10PM").value,
+        LearningNew: document.getElementById("learningNew").value,
+        LearningNotes: document.getElementById("learningNotes").value
       };
       console.log("Submitting Form Data:", formData);
 
