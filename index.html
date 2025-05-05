@@ -162,6 +162,11 @@
         font-size: 0.9em;
       }
     }
+
+    /* Hide the proxy form */
+    #proxyForm {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -188,6 +193,31 @@
     <button type="submit">Log Day</button>
   </form>
 
+  <!-- Hidden form for proxy submission -->
+  <form id="proxyForm" action="https://script.google.com/macros/s/AKfycbye_svKr7ipt_-K5tpbuu12bzGAuzZrciX4xl7jI5i7ejC5JWd86e6-y8mf-PMP0pNKkw/exec" method="POST" target="hiddenFrame">
+    <input type="hidden" name="date" id="proxyDate">
+    <input type="hidden" name="wakeUp6AM" id="proxyWakeUp6AM">
+    <input type="hidden" name="exercise" id="proxyExercise">
+    <input type="hidden" name="exerciseNotes" id="proxyExerciseNotes">
+    <input type="hidden" name="holyBooks" id="proxyHolyBooks">
+    <input type="hidden" name="holyBookNotes" id="proxyHolyBookNotes">
+    <input type="hidden" name="podcast" id="proxyPodcast">
+    <input type="hidden" name="podcastNotes" id="proxyPodcastNotes">
+    <input type="hidden" name="noSmoking" id="proxyNoSmoking">
+    <input type="hidden" name="noMasturbation" id="proxyNoMasturbation">
+    <input type="hidden" name="noJunkFood" id="proxyNoJunkFood">
+    <input type="hidden" name="englishVideos" id="proxyEnglishVideos">
+    <input type="hidden" name="socialMedia" id="proxySocialMedia">
+    <input type="hidden" name="overthinking" id="proxyOverthinking">
+    <input type="hidden" name="overthinkingNotes" id="proxyOverthinkingNotes">
+    <input type="hidden" name="sleepAt10PM" id="proxySleepAt10PM">
+    <input type="hidden" name="learningNew" id="proxyLearningNew">
+    <input type="hidden" name="learningNotes" id="proxyLearningNotes">
+  </form>
+
+  <!-- Hidden iframe to handle form submission response -->
+  <iframe name="hiddenFrame" style="display: none;"></iframe>
+
   <h2>Summary</h2>
   <table id="summaryTable">
     <thead>
@@ -205,7 +235,7 @@
   </table>
 
   <script>
-    const apiUrl = "https://script.google.com/macros/s/AKfycbye_svKr7ipt_-K5tpbuu12bzGAuzZrciX4xl7jI5i7ejC5JWd86e6-y8mf-PMP0pNKkw/exec";
+    const apiUrl = "https://script.google.com/macros/s/AKfycbzGEoR9rrp3-FN-S7CbE65UJ5sNrLSF8X5yynw2ciToBn_4Sit9PaMcWwFH98iGHU9VvA/exec";
 
     // Define goals to track (excluding notes fields)
     const goals = [
@@ -343,53 +373,42 @@
     document.getElementById("logForm").addEventListener("submit", function(e) {
       e.preventDefault();
       console.log("Form submit event triggered");
-      const formData = {
-        Date: document.getElementById("date").value,
-        WakeUp6AM: document.getElementById("wakeUp6AM").value,
-        Exercise: document.getElementById("exercise").value,
-        ExerciseNotes: document.getElementById("exerciseNotes").value,
-        HolyBooks: document.getElementById("holyBooks").value,
-        HolyBookNotes: document.getElementById("holyBookNotes").value,
-        Podcast: document.getElementById("podcast").value,
-        PodcastNotes: document.getElementById("podcastNotes").value,
-        NoSmoking: document.getElementById("noSmoking").value,
-        NoMasturbation: document.getElementById("noMasturbation").value,
-        NoJunkFood: document.getElementById("noJunkFood").value,
-        EnglishVideos: document.getElementById("englishVideos").value,
-        SocialMedia: document.getElementById("socialMedia").value,
-        Overthinking: document.getElementById("overthinking").value,
-        OverthinkingNotes: document.getElementById("overthinkingNotes").value,
-        SleepAt10PM: document.getElementById("sleepAt10PM").value,
-        LearningNew: document.getElementById("learningNew").value,
-        LearningNotes: document.getElementById("learningNotes").value
-      };
-      console.log("Submitting Form Data:", formData);
 
-      fetch(apiUrl, {
-        method: "POST",
-        // mode: "cors", // Uncomment if needed, otherwise let browser handle
-        credentials: "omit",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-        redirect: "follow"
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
-          }
-          return response.text();
-        })
-        .then(result => {
-          console.log("Submission Result:", result);
-          alert("Data logged successfully!");
-          document.getElementById("logForm").reset();
-          document.getElementById("date").value = new Date().toISOString().split("T")[0];
-          loadData();
-        })
-        .catch(error => {
-          console.error("Submission Error:", error);
-          alert("Failed to log data: " + error.message);
-        });
+      // Populate the hidden form with data
+      document.getElementById("proxyDate").value = document.getElementById("date").value;
+      document.getElementById("proxyWakeUp6AM").value = document.getElementById("wakeUp6AM").value;
+      document.getElementById("proxyExercise").value = document.getElementById("exercise").value;
+      document.getElementById("proxyExerciseNotes").value = document.getElementById("exerciseNotes").value;
+      document.getElementById("proxyHolyBooks").value = document.getElementById("holyBooks").value;
+      document.getElementById("proxyHolyBookNotes").value = document.getElementById("holyBookNotes").value;
+      document.getElementById("proxyPodcast").value = document.getElementById("podcast").value;
+      document.getElementById("proxyPodcastNotes").value = document.getElementById("podcastNotes").value;
+      document.getElementById("proxyNoSmoking").value = document.getElementById("noSmoking").value;
+      document.getElementById("proxyNoMasturbation").value = document.getElementById("noMasturbation").value;
+      document.getElementById("proxyNoJunkFood").value = document.getElementById("noJunkFood").value;
+      document.getElementById("proxyEnglishVideos").value = document.getElementById("englishVideos").value;
+      document.getElementById("proxySocialMedia").value = document.getElementById("socialMedia").value;
+      document.getElementById("proxyOverthinking").value = document.getElementById("overthinking").value;
+      document.getElementById("proxyOverthinkingNotes").value = document.getElementById("overthinkingNotes").value;
+      document.getElementById("proxySleepAt10PM").value = document.getElementById("sleepAt10PM").value;
+      document.getElementById("proxyLearningNew").value = document.getElementById("learningNew").value;
+      document.getElementById("proxyLearningNotes").value = document.getElementById("learningNotes").value;
+
+      // Submit the hidden form
+      const proxyForm = document.getElementById("proxyForm");
+      proxyForm.submit();
+
+      // Show success message and reset form
+      alert("Data logged successfully!");
+      document.getElementById("logForm").reset();
+      document.getElementById("date").value = new Date().toISOString().split("T")[0];
+      loadData();
+    });
+
+    // Add event listener for the hidden iframe to handle submission response
+    const hiddenFrame = document.getElementsByName("hiddenFrame")[0];
+    hiddenFrame.addEventListener("load", function() {
+      console.log("Hidden form submission completed");
     });
 
     loadData();
