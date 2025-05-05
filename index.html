@@ -98,7 +98,7 @@
       transform: scale(1.05);
     }
 
-    /* Style the progress heading */
+    /* Style the progress and summary headings */
     h2 {
       text-align: center;
       color: #2c3e50;
@@ -106,7 +106,7 @@
       margin: 30px 0 15px;
     }
 
-    /* Style the table container */
+    /* Style the table container (for both summary and daily log) */
     table {
       width: 95%;
       max-width: 1400px;
@@ -188,6 +188,14 @@
     <button type="submit">Log Day</button>
   </form>
 
+  <h2>Summary</h2>
+  <table id="summaryTable">
+    <thead>
+      <tr><th>Goal</th><th>Streak</th><th>SuccessRate</th></tr>
+    </thead>
+    <tbody id="summaryBody"></tbody>
+  </table>
+
   <h2>Progress</h2>
   <table id="dataTable">
     <thead>
@@ -198,6 +206,36 @@
 
   <script>
     const apiUrl = "https://script.google.com/macros/s/AKfycbye_svKr7ipt_-K5tpbuu12bzGAuzZrciX4xl7jI5i7ejC5JWd86e6-y8mf-PMP0pNKkw/exec";
+
+    // Define goals to track (excluding notes fields)
+    const goals = [
+      "WakeUp6AM",
+      "Exercise",
+      "HolyBooks",
+      "Podcast",
+      "NoSmoking",
+      "NoMasturbation",
+      "NoJunkFood",
+      "EnglishVideos",
+      "SocialMedia",
+      "Overthinking",
+      "SleepAt10PM",
+      "LearningNew"
+    ];
+
+    // Define which goals are select fields (expecting "Yes" for success)
+    const selectGoals = [
+      "WakeUp6AM",
+      "HolyBooks",
+      "Podcast",
+      "NoSmoking",
+      "NoMasturbation",
+      "NoJunkFood",
+      "EnglishVideos",
+      "Overthinking",
+      "SleepAt10PM",
+      "LearningNew"
+    ];
 
     function loadData() {
       fetch(apiUrl, {
@@ -213,16 +251,34 @@
         })
         .then(data => {
           console.log("Loaded data:", data);
-          const tbody = document.getElementById("dataBody");
-          tbody.innerHTML = "";
-          data.slice(1).forEach(row => {
+          const rows = data.slice(1);
+
+          // Populate daily log table
+          const dataBody = document.getElementById("dataBody");
+          dataBody.innerHTML = "";
+          rows.forEach(row => {
             const tr = document.createElement("tr");
             row.forEach(cell => {
               const td = document.createElement("td");
               td.textContent = cell;
               tr.appendChild(td);
             });
-            tbody.appendChild(tr);
+            dataBody.appendChild(tr);
+          });
+
+          // Calculate and populate summary table
+          const summaryBody = document.getElementById("summaryBody");
+          summaryBody.innerHTML = "";
+          goals.forEach(goal => {
+            const streak = calculateStreak(rows, goal);
+            const successRate = calculateSuccessRate(rows, goal);
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${goal}</td>
+              <td>${streak}</td>
+              <td>${successRate.toFixed(2)}%</td>
+            `;
+            summaryBody.appendChild(tr);
           });
         })
         .catch(error => {
@@ -231,9 +287,62 @@
         });
     }
 
+    function calculateStreak(rows, goal) {
+      let streak = 0;
+      const isSelectGoal = selectGoals.includes(goal);
+      const colIndex = getColumnIndex(goal);
+
+      for (let i = rows.length - 1; i >= 0; i--) {
+        const value = rows[i][colIndex];
+        const isSuccess = isSelectGoal ? value === "Yes" : value && value.trim() !== "";
+        if (!isSuccess) break;
+        streak++;
+      }
+      return streak;
+    }
+
+    function calculateSuccessRate(rows, goal) {
+      if (rows.length === 0) return 0;
+      const isSelectGoal = selectGoals.includes(goal);
+      const colIndex = getColumnIndex(goal);
+      let successCount = 0;
+
+      rows.forEach(row => {
+        const value = row[colIndex];
+        const isSuccess = isSelectGoal ? value === "Yes" : value && value.trim() !== "";
+        if (isSuccess) successCount++;
+      });
+
+      return (successCount / rows.length) * 100;
+    }
+
+    function getColumnIndex(goal) {
+      const headers = [
+        "Date",
+        "WakeUp6AM",
+        "Exercise",
+        "ExerciseNotes",
+        "HolyBooks",
+        "HolyBookNotes",
+        "Podcast",
+        "PodcastNotes",
+        "NoSmoking",
+        "NoMasturbation",
+        "NoJunkFood",
+        "EnglishVideos",
+        "SocialMedia",
+        "Overthinking",
+        "OverthinkingNotes",
+        "SleepAt10PM",
+        "LearningNew",
+        "LearningNotes"
+      ];
+      return headers.indexOf(goal);
+    }
+
     document.getElementById("logForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      console.log("Form submit event triggered"); // Debugging line
+      console.log("Form submit event triggered");
       const formData = {
         Date: document.getElementById("date").value,
         WakeUp6AM: document.getElementById("wakeUp6AM").value,
@@ -258,7 +367,7 @@
 
       fetch(apiUrl, {
         method: "POST",
-        mode: "cors",
+        // mode: "cors", // Uncomment if needed, otherwise let browser handle
         credentials: "omit",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -266,7 +375,7 @@
       })
         .then(response => {
           if (!response.ok) {
-            throw new Error("POST request failed: " + response.statusText);
+            throw new Error(`HTTP error! status: ${response.status}, statusText: ${response.statusText}`);
           }
           return response.text();
         })
