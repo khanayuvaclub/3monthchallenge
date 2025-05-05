@@ -167,7 +167,7 @@
 <body>
   <h1>3-Month Transformation Challenge</h1>
   <form id="logForm">
-    <label>Date: <input type="date" id="date" value="2025-05-05"></label>
+    <label>Date: <input type="date" id="Date" value="2025-05-05"></label>
     <label>Wake up at 6:00 AM: <select id="wakeUp6AM"><option value="Yes">Yes</option><option value="No">No</option></select></label>
     <label>Exercise (30-45 min): <input type="text" id="exercise" placeholder="e.g., 35 min"></label>
     <label>Notes: <input type="text" id="exerciseNotes" placeholder="e.g., Jogging"></label>
@@ -197,12 +197,22 @@
   </table>
 
   <script>
-    const apiUrl = "https://script.google.com/macros/s/AKfycbw3VMHuuYcySANzVtxt-9nD-OgxyQeZtiAdWi7lDGr8Ro0ChMqrg4N65s5NCH1tb0fX9Q/exec"; // Replace with your Apps Script URL
+    const apiUrl = "https://script.google.com/macros/s/AKfycbye_svKr7ipt_-K5tpbuu12bzGAuzZrciX4xl7jI5i7ejC5JWd86e6-y8mf-PMP0pNKkw/exec";
 
     function loadData() {
-      fetch(apiUrl)
-        .then(response => response.json())
+      fetch(apiUrl, {
+        method: "GET",
+        mode: "cors",
+        credentials: "omit"
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("GET request failed: " + response.statusText);
+          }
+          return response.json();
+        })
         .then(data => {
+          console.log("Loaded data:", data);
           const tbody = document.getElementById("dataBody");
           tbody.innerHTML = "";
           data.slice(1).forEach(row => {
@@ -215,7 +225,10 @@
             tbody.appendChild(tr);
           });
         })
-        .catch(error => console.error("Error:", error));
+        .catch(error => {
+          console.error("Load Data Error:", error);
+          alert("Failed to load data: " + error.message);
+        });
     }
 
     document.getElementById("logForm").addEventListener("submit", function(e) {
@@ -240,18 +253,33 @@
         learningNew: document.getElementById("learningNew").value,
         learningNotes: document.getElementById("learningNotes").value
       };
+      console.log("Submitting Form Data:", formData);
+
       fetch(apiUrl, {
         method: "POST",
+        mode: "cors",
+        credentials: "omit",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-        headers: { "Content-Type": "application/json" }
+        redirect: "follow"
       })
-        .then(response => response.text())
-        .then(() => {
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("POST request failed: " + response.statusText);
+          }
+          return response.text();
+        })
+        .then(result => {
+          console.log("Submission Result:", result);
+          alert("Data logged successfully!");
           document.getElementById("logForm").reset();
           document.getElementById("date").value = new Date().toISOString().split("T")[0];
           loadData();
         })
-        .catch(error => console.error("Error:", error));
+        .catch(error => {
+          console.error("Submission Error:", error);
+          alert("Failed to log data: " + error.message);
+        });
     });
 
     loadData();
