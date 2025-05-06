@@ -89,7 +89,7 @@
     .quote-text {
       font-size: 1.1em;
       font-style: italic;
-      color: #cf8a8a; /* Bright white for visibility */
+      color: #af6868; /* Bright white for visibility */
       margin-bottom: 10px;
       font-weight: 600;
     }
@@ -107,11 +107,38 @@
       border-radius: 20px;
       transition: transform 0.4s ease, box-shadow 0.4s ease;
       background: #fff;
+      display: none; /* Initially hidden */
+    }
+
+    .form-iframe.visible {
+      display: block; /* Visible when toggled */
     }
 
     .form-iframe:hover {
       transform: scale(1.01);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .challenge-button {
+      display: block;
+      width: 250px;
+      margin: 20px auto;
+      padding: 15px;
+      background: #2b86c5;
+      color: #ffffff;
+      text-align: center;
+      text-decoration: none;
+      font-size: 1.3em;
+      font-weight: 700;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .challenge-button:hover {
+      background: #1b5e91;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     }
 
     /* Animation keyframes */
@@ -159,11 +186,16 @@
       }
 
       .quote-text {
-        font’appelle: 1em;
+        font-size: 1em;
       }
 
       .form-iframe {
         height: 2700px;
+      }
+
+      .challenge-button {
+        width: 200px;
+        font-size: 1.1em;
       }
     }
 
@@ -179,6 +211,11 @@
       .quote-card {
         padding: 12px;
       }
+
+      .challenge-button {
+        width: 180px;
+        font-size: 1em;
+      }
     }
   </style>
 </head>
@@ -188,7 +225,7 @@
     <div class="form-subtitle">Empower Yourself to Achieve Greatness in 90 Days!</div>
     <div class="intro-content">
       <p>This challenge is all about <strong>YOU</strong>. It's your opportunity to transform your body, ignite your mind, and elevate your life. With tailored guidance, relentless motivation, and a community behind you, you're unstoppable.</p>
-      <p>Picture yourself stronger, healthier, and radiating confidence. The 3 Month Transformation Challenge is your path to that reality. Fill out the form below and begin your epic journey today!</p>
+      <p>Picture yourself stronger, healthier, and radiating confidence. The 3 Month Transformation Challenge is your path to that reality. Click the button below to reveal the form and begin your epic journey today!</p>
     </div>
     <div class="quotes-section">
       <div class="quote-card">
@@ -216,7 +253,16 @@
       marginheight="0" 
       marginwidth="0" 
       class="form-iframe"
+      id="challengeForm"
     >Loading…</iframe>
+    <button class="challenge-button" onclick="toggleForm()">Your Challenge</button>
   </div>
+
+  <script>
+    function toggleForm() {
+      const form = document.getElementById('challengeForm');
+      form.classList.toggle('visible');
+    }
+  </script>
 </body>
 </html>
