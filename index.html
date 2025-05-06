@@ -1,417 +1,222 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Transformation Challenge Tracker</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your 3 Month Transformation Journey</title>
   <style>
-    /* Reset default margins and set base font */
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
-      padding: 20px;
-      background: linear-gradient(135deg, #74ebd5 0%, #acb6e5 100%);
-      color: #333;
-      line-height: 1.6;
-    }
-
-    /* Center and style the heading */
-    h1 {
-      text-align: center;
-      color: #2c3e50;
-      font-size: 2.5em;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Style the form container */
-    form {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    /* Add hover effect to form */
-    form:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Style the form labels for line-wise alignment */
-    label {
+      padding: 0;
       display: flex;
+      justify-content: center;
       align-items: center;
-      margin: 10px 0;
-      padding: 10px;
-      background: #f9f9f9;
-      border-radius: 8px;
-      transition: background 0.3s ease;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #87ceeb, #add8e6, #e6f3ff); /* Soft sky blue gradient */
+      font-family: 'Poppins', sans-serif;
+      color: #333;
     }
 
-    /* Hover effect for labels */
-    label:hover {
-      background: #e8f0fe;
-    }
-
-    /* Style inputs and selects */
-    input, select {
-      flex: 1;
-      margin-left: 15px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-size: 1em;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    /* Focus and hover effects for inputs and selects */
-    input:focus, select:focus {
-      outline: none;
-      border-color: #3498db;
-      box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
-    }
-
-    input:hover, select:hover {
-      border-color: #3498db;
-    }
-
-    /* Style the submit button */
-    button {
-      display: block;
-      width: 200px;
-      margin: 20px auto;
-      padding: 12px;
-      background: linear-gradient(to right, #3498db, #2980b9);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 1.1em;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-
-    /* Button hover effect */
-    button:hover {
-      background: linear-gradient(to right, #2980b9, #1c6ea4);
-      transform: scale(1.05);
-    }
-
-    /* Style the progress and summary headings */
-    h2 {
-      text-align: center;
-      color: #2c3e50;
-      font-size: 1.8em;
-      margin: 30px 0 15px;
-    }
-
-    /* Style the table container (for both summary and daily log) */
-    table {
-      width: 95%;
-      max-width: 1400px;
-      margin: 0 auto;
-      border-collapse: collapse;
-      background: #fff;
-      border-radius: 12px;
+    .form-container {
+      background: rgba(255, 255, 255, 0.2); /* Semi-transparent */
+      border-radius: 25px;
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
+      padding: 40px;
+      max-width: 900px;
+      width: 100%;
       overflow: hidden;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      animation: slideIn 1.2s ease-out;
+      backdrop-filter: blur(12px);
     }
 
-    /* Style table headers */
-    th {
-      background: linear-gradient(to right, #3498db, #2980b9);
-      color: white;
-      padding: 12px;
-      text-align: left;
+    .form-title {
+      text-align: center;
+      font-size: 3.2em;
+      color: #017fed; /* Bright white for high visibility */
+      margin-bottom: 15px;
+      font-weight: 900;
+      text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 1.5s ease-in;
+      letter-spacing: 1px;
+    }
+
+    .form-subtitle {
+      text-align: center;
+      font-size: 1.5em;
+      color: #017fed; /* Light blue-white for contrast */
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-style: italic;
+      animation: fadeIn 1.8s ease-in;
+    }
+
+    .intro-content {
+      text-align: center;
+      font-size: 1.2em;
+      color: #017fed; /* Bright white for visibility */
+      line-height: 1.8;
+      margin-bottom: 40px;
+      font-weight: 600;
+      animation: fadeIn 2s ease-in;
+    }
+
+    .intro-content p {
+      margin: 15px 0;
+    }
+
+    .quotes-section {
+      margin-bottom: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .quote-card {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeIn 2.2s ease-in;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .quote-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .quote-text {
+      font-size: 1.1em;
+      font-style: italic;
+      color: #cf8a8a; /* Bright white for visibility */
+      margin-bottom: 10px;
       font-weight: 600;
     }
 
-    /* Style table cells */
-    td {
-      padding: 12px;
-      border-bottom: 1px solid #eee;
-      text-align: left;
+    .quote-author {
+      font-size: 0.9em;
+      color: #f0f8ff; /* Light blue-white for contrast */
+      font-weight: 700;
     }
 
-    /* Style table rows with hover effect */
-    tr {
-      transition: background 0.3s ease, transform 0.2s ease;
+    .form-iframe {
+      width: 100%;
+      height: 2642px;
+      border: none;
+      border-radius: 20px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      background: #fff;
     }
 
-    tr:hover {
-      background: #f1f8ff;
-      transform: translateY(-2px);
+    .form-iframe:hover {
+      transform: scale(1.01);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     }
 
-    /* Ensure responsiveness */
+    /* Animation keyframes */
+    @keyframes slideIn {
+      from {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Responsive design */
     @media (max-width: 768px) {
-      label {
-        flex-direction: column;
-        align-items: flex-start;
+      .form-container {
+        margin: 20px;
+        padding: 25px;
       }
-      input, select {
-        margin-left: 0;
-        margin-top: 5px;
-        width: 100%;
+
+      .form-title {
+        font-size: 2.2em;
       }
-      button {
-        width: 100%;
+
+      .form-subtitle {
+        font-size: 1.3em;
       }
-      table {
-        font-size: 0.9em;
+
+      .intro-content {
+        font-size: 1em;
+      }
+
+      .quote-card {
+        padding: 15px;
+      }
+
+      .quote-text {
+        font’appelle: 1em;
+      }
+
+      .form-iframe {
+        height: 2700px;
       }
     }
 
-    /* Hide the proxy form */
-    #proxyForm {
-      display: none;
+    @media (max-width: 480px) {
+      .form-title {
+        font-size: 1.8em;
+      }
+
+      .quotes-section {
+        grid-template-columns: 1fr;
+      }
+
+      .quote-card {
+        padding: 12px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>3-Month Transformation Challenge</h1>
-  <form id="logForm">
-    <label>Date: <input type="date" id="date" value="2025-05-05"></label>
-    <label>Wake up at 6:00 AM: <select id="wakeUp6AM"><option value="Yes">Yes</option><option value="No">No</option></select></label>
-    <label>Exercise (30-45 min): <input type="text" id="exercise" placeholder="e.g., 35 min"></label>
-    <label>Notes: <input type="text" id="exerciseNotes" placeholder="e.g., Jogging"></label>
-    <label>Read Holy Books: <select id="holyBooks"><option value="Yes">Yes</option><option value="No">No</option></select></label>
-    <label>Notes: <input type="text" id="holyBookNotes" placeholder="e.g., Geeta, John 3"></label>
-    <label>Podcast (30 min): <select id="podcast"><option value="Yes">Yes</option><option value="No">No</option></select></label>
-    <label>Takeaway: <input type="text" id="podcastNotes" placeholder="e.g., Leadership"></label>
-    <label>No Smoking: <select id="noSmoking"><option value="Yes">Yes</option><option value="No">No</option></select></label>
-    <label>No Masturbation: <select id="noMasturbation"><option value="Yes">Yes</option><option value="No">No</option></select></label>
-    <label>No Junk Food: <select id="noJunkFood"><option value="Yes">Yes</option><option value="No">No</option></select></label>
-    <label>English Videos Only: <select id="englishVideos"><option value="Yes">Yes</option><option value="No">No</option></select></label>
-    <label>Social Media (max 45 min): <input type="text" id="socialMedia" placeholder="e.g., 40 min"></label>
-    <label>Overthinking Reduced: <select id="overthinking"><option value="Yes">Yes</option><option value="No">No</option></select></label>
-    <label>Notes: <input type="text" id="overthinkingNotes" placeholder="e.g., Felt calm"></label>
-    <label>Sleep at 10 PM: <select id="sleepAt10PM"><option value="Yes">Yes</option><option value="No">No</option></select></label>
-    <label>Learning New Things: <select id="learningNew"><option value="Yes">Yes</option><option value="No">No</option></select></label>
-    <label>Notes: <input type="text" id="learningNotes" placeholder="e.g., Learned CSS"></label>
-    <button type="submit">Log Day</button>
-  </form>
-
-  <!-- Hidden form for proxy submission -->
-  <form id="proxyForm" action="https://script.google.com/macros/s/AKfycbye_svKr7ipt_-K5tpbuu12bzGAuzZrciX4xl7jI5i7ejC5JWd86e6-y8mf-PMP0pNKkw/exec" method="POST" target="hiddenFrame">
-    <input type="hidden" name="date" id="proxyDate">
-    <input type="hidden" name="wakeUp6AM" id="proxyWakeUp6AM">
-    <input type="hidden" name="exercise" id="proxyExercise">
-    <input type="hidden" name="exerciseNotes" id="proxyExerciseNotes">
-    <input type="hidden" name="holyBooks" id="proxyHolyBooks">
-    <input type="hidden" name="holyBookNotes" id="proxyHolyBookNotes">
-    <input type="hidden" name="podcast" id="proxyPodcast">
-    <input type="hidden" name="podcastNotes" id="proxyPodcastNotes">
-    <input type="hidden" name="noSmoking" id="proxyNoSmoking">
-    <input type="hidden" name="noMasturbation" id="proxyNoMasturbation">
-    <input type="hidden" name="noJunkFood" id="proxyNoJunkFood">
-    <input type="hidden" name="englishVideos" id="proxyEnglishVideos">
-    <input type="hidden" name="socialMedia" id="proxySocialMedia">
-    <input type="hidden" name="overthinking" id="proxyOverthinking">
-    <input type="hidden" name="overthinkingNotes" id="proxyOverthinkingNotes">
-    <input type="hidden" name="sleepAt10PM" id="proxySleepAt10PM">
-    <input type="hidden" name="learningNew" id="proxyLearningNew">
-    <input type="hidden" name="learningNotes" id="proxyLearningNotes">
-  </form>
-
-  <!-- Hidden iframe to handle form submission response -->
-  <iframe name="hiddenFrame" style="display: none;"></iframe>
-
-  <h2>Summary</h2>
-  <table id="summaryTable">
-    <thead>
-      <tr><th>Goal</th><th>Streak</th><th>SuccessRate</th></tr>
-    </thead>
-    <tbody id="summaryBody"></tbody>
-  </table>
-
-  <h2>Progress</h2>
-  <table id="dataTable">
-    <thead>
-      <tr><th>Date</th><th>Wake</th><th>Exer</th><th>Notes</th><th>Holy</th><th>Notes</th><th>Pod</th><th>Takeaway</th><th>NoSmoke</th><th>NoMast</th><th>NoJunk</th><th>EngVid</th><th>SocMed</th><th>Overthink</th><th>Notes</th><th>Sleep</th><th>Learn</th><th>Notes</th></tr>
-    </thead>
-    <tbody id="dataBody"></tbody>
-  </table>
-
-  <script>
-    const apiUrl = "https://script.google.com/macros/s/AKfycbzGEoR9rrp3-FN-S7CbE65UJ5sNrLSF8X5yynw2ciToBn_4Sit9PaMcWwFH98iGHU9VvA/exec";
-
-    // Define goals to track (excluding notes fields)
-    const goals = [
-      "WakeUp6AM",
-      "Exercise",
-      "HolyBooks",
-      "Podcast",
-      "NoSmoking",
-      "NoMasturbation",
-      "NoJunkFood",
-      "EnglishVideos",
-      "SocialMedia",
-      "Overthinking",
-      "SleepAt10PM",
-      "LearningNew"
-    ];
-
-    // Define which goals are select fields (expecting "Yes" for success)
-    const selectGoals = [
-      "WakeUp6AM",
-      "HolyBooks",
-      "Podcast",
-      "NoSmoking",
-      "NoMasturbation",
-      "NoJunkFood",
-      "EnglishVideos",
-      "Overthinking",
-      "SleepAt10PM",
-      "LearningNew"
-    ];
-
-    function loadData() {
-      fetch(apiUrl, {
-        method: "GET",
-        mode: "cors",
-        credentials: "omit"
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error("GET request failed: " + response.statusText);
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log("Loaded data:", data);
-          const rows = data.slice(1);
-
-          // Populate daily log table
-          const dataBody = document.getElementById("dataBody");
-          dataBody.innerHTML = "";
-          rows.forEach(row => {
-            const tr = document.createElement("tr");
-            row.forEach(cell => {
-              const td = document.createElement("td");
-              td.textContent = cell;
-              tr.appendChild(td);
-            });
-            dataBody.appendChild(tr);
-          });
-
-          // Calculate and populate summary table
-          const summaryBody = document.getElementById("summaryBody");
-          summaryBody.innerHTML = "";
-          goals.forEach(goal => {
-            const streak = calculateStreak(rows, goal);
-            const successRate = calculateSuccessRate(rows, goal);
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-              <td>${goal}</td>
-              <td>${streak}</td>
-              <td>${successRate.toFixed(2)}%</td>
-            `;
-            summaryBody.appendChild(tr);
-          });
-        })
-        .catch(error => {
-          console.error("Load Data Error:", error);
-          alert("Failed to load data: " + error.message);
-        });
-    }
-
-    function calculateStreak(rows, goal) {
-      let streak = 0;
-      const isSelectGoal = selectGoals.includes(goal);
-      const colIndex = getColumnIndex(goal);
-
-      for (let i = rows.length - 1; i >= 0; i--) {
-        const value = rows[i][colIndex];
-        const isSuccess = isSelectGoal ? value === "Yes" : value && value.trim() !== "";
-        if (!isSuccess) break;
-        streak++;
-      }
-      return streak;
-    }
-
-    function calculateSuccessRate(rows, goal) {
-      if (rows.length === 0) return 0;
-      const isSelectGoal = selectGoals.includes(goal);
-      const colIndex = getColumnIndex(goal);
-      let successCount = 0;
-
-      rows.forEach(row => {
-        const value = row[colIndex];
-        const isSuccess = isSelectGoal ? value === "Yes" : value && value.trim() !== "";
-        if (isSuccess) successCount++;
-      });
-
-      return (successCount / rows.length) * 100;
-    }
-
-    function getColumnIndex(goal) {
-      const headers = [
-        "Date",
-        "WakeUp6AM",
-        "Exercise",
-        "ExerciseNotes",
-        "HolyBooks",
-        "HolyBookNotes",
-        "Podcast",
-        "PodcastNotes",
-        "NoSmoking",
-        "NoMasturbation",
-        "NoJunkFood",
-        "EnglishVideos",
-        "SocialMedia",
-        "Overthinking",
-        "OverthinkingNotes",
-        "SleepAt10PM",
-        "LearningNew",
-        "LearningNotes"
-      ];
-      return headers.indexOf(goal);
-    }
-
-    document.getElementById("logForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      console.log("Form submit event triggered");
-
-      // Populate the hidden form with data
-      document.getElementById("proxyDate").value = document.getElementById("date").value;
-      document.getElementById("proxyWakeUp6AM").value = document.getElementById("wakeUp6AM").value;
-      document.getElementById("proxyExercise").value = document.getElementById("exercise").value;
-      document.getElementById("proxyExerciseNotes").value = document.getElementById("exerciseNotes").value;
-      document.getElementById("proxyHolyBooks").value = document.getElementById("holyBooks").value;
-      document.getElementById("proxyHolyBookNotes").value = document.getElementById("holyBookNotes").value;
-      document.getElementById("proxyPodcast").value = document.getElementById("podcast").value;
-      document.getElementById("proxyPodcastNotes").value = document.getElementById("podcastNotes").value;
-      document.getElementById("proxyNoSmoking").value = document.getElementById("noSmoking").value;
-      document.getElementById("proxyNoMasturbation").value = document.getElementById("noMasturbation").value;
-      document.getElementById("proxyNoJunkFood").value = document.getElementById("noJunkFood").value;
-      document.getElementById("proxyEnglishVideos").value = document.getElementById("englishVideos").value;
-      document.getElementById("proxySocialMedia").value = document.getElementById("socialMedia").value;
-      document.getElementById("proxyOverthinking").value = document.getElementById("overthinking").value;
-      document.getElementById("proxyOverthinkingNotes").value = document.getElementById("overthinkingNotes").value;
-      document.getElementById("proxySleepAt10PM").value = document.getElementById("sleepAt10PM").value;
-      document.getElementById("proxyLearningNew").value = document.getElementById("learningNew").value;
-      document.getElementById("proxyLearningNotes").value = document.getElementById("learningNotes").value;
-
-      // Submit the hidden form
-      const proxyForm = document.getElementById("proxyForm");
-      proxyForm.submit();
-
-      // Show success message and reset form
-      alert("Data logged successfully!");
-      document.getElementById("logForm").reset();
-      document.getElementById("date").value = new Date().toISOString().split("T")[0];
-      loadData();
-    });
-
-    // Add event listener for the hidden iframe to handle submission response
-    const hiddenFrame = document.getElementsByName("hiddenFrame")[0];
-    hiddenFrame.addEventListener("load", function() {
-      console.log("Hidden form submission completed");
-    });
-
-    loadData();
-  </script>
+  <div class="form-container">
+    <h1 class="form-title">Your 3 Month Transformation Challenge</h1>
+    <div class="form-subtitle">Empower Yourself to Achieve Greatness in 90 Days!</div>
+    <div class="intro-content">
+      <p>This challenge is all about <strong>YOU</strong>. It's your opportunity to transform your body, ignite your mind, and elevate your life. With tailored guidance, relentless motivation, and a community behind you, you're unstoppable.</p>
+      <p>Picture yourself stronger, healthier, and radiating confidence. The 3 Month Transformation Challenge is your path to that reality. Fill out the form below and begin your epic journey today!</p>
+    </div>
+    <div class="quotes-section">
+      <div class="quote-card">
+        <p class="quote-text">"The body achieves what the mind believes."</p>
+        <p class="quote-author">– Jim Rohn</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">"You don't have to be great to start, but you have to start to be great."</p>
+        <p class="quote-author">– Zig Ziglar</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">"Strength does not come from physical capacity. It comes from an indomitable will."</p>
+        <p class="quote-author">– Mahatma Gandhi</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">"The only limit to our realization of tomorrow is our doubts of today."</p>
+        <p class="quote-author">– Franklin D. Roosevelt</p>
+      </div>
+    </div>
+    <iframe 
+      src="https://docs.google.com/forms/d/e/1FAIpQLSckjTq8U6Svlni9KZMnHND7ReC83qNl37CIMRjZpojWgJfIqQ/viewform?embedded=true" 
+      width="640" 
+      height="2642" 
+      frameborder="0" 
+      marginheight="0" 
+      marginwidth="0" 
+      class="form-iframe"
+    >Loading…</iframe>
+  </div>
 </body>
 </html>
